@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/albumcover"
+        android:src="@drawable/austin"
         />
 
     <!-- Music Information -->

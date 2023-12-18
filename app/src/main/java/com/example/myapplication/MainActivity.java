@@ -19,10 +19,10 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         musicList = new Music[]{
-                new Music("overdrive", "post malone", R.raw.overdrive),
-                new Music("circles", "post malone", R.raw.circles),
-                new Music("out of time", "the weeknd", R.raw.out_of_time),
-                new Music("as it was", "harry styles", R.raw.as_it_was),
+                new Music("overdrive", "post malone", R.raw.overdrive, R.drawable.austin),
+                new Music("circles", "post malone", R.raw.circles, R.drawable.hollywoods_bleeding),
+                new Music("out of time", "the weeknd", R.raw.out_of_time, R.drawable.dawn_fm),
+                new Music("as it was", "harry styles", R.raw.as_it_was, R.drawable.harrys_house),
                 // Add more songs as needed
         };
 
@@ -56,11 +56,14 @@ class Music {
     private String singer;
     private int resourceId; // ID of the music resource (assuming it's a resource ID)
 
+    private int albumCover;
+
     // Constructor, getters, setters...\
-    public Music(String title, String singer, int resourceId) {
+    public Music(String title, String singer, int resourceId, int albumCover) {
         this.title = title;
         this.singer = singer;
         this.resourceId = resourceId;
+        this.albumCover = albumCover;
     }
 
     // Add getters for title, singer, and resourceId
@@ -74,5 +77,9 @@ class Music {
 
     public int getResourceId() {
         return resourceId;
+    }
+
+    public int getAlbumCover() {
+        return albumCover;
     }
 }
