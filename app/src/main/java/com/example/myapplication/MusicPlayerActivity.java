@@ -68,9 +68,17 @@ public class MusicPlayerActivity extends AppCompatActivity {
             }
         };
 
-        // Retrieve the current music index from the intent
+        // Retrieve the music title from the intent
         Intent intent = getIntent();
-        currentMusicIndex = intent.getIntExtra("currentMusicIndex", 0);
+        String selectedMusicTitle = intent.getStringExtra("selectedMusicTitle");
+
+        // Find the index of the selected music title in the musicList
+        for (int i = 0; i < musicList.length; i++) {
+            if (musicList[i].getTitle().equals(selectedMusicTitle)) {
+                currentMusicIndex = i;
+                break;
+            }
+        }
 
         startMusicPlayback();
     }
@@ -184,5 +192,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Pass the current music index back to MainActivity
+        Intent intent = new Intent();
+        intent.putExtra("currentMusicIndex", currentMusicIndex);
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 }

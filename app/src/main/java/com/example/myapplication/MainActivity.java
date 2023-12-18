@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ListActivity;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 public class MainActivity extends ListActivity {
 
     public static Music[] musicList;
+
+    private static final int MUSIC_PLAYER_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,21 @@ public class MainActivity extends ListActivity {
         intent.putExtra("selectedMusicTitle", selectedMusicTitle);
 
         // Start the activity
-        startActivity(intent);
+        startActivityForResult(intent, MUSIC_PLAYER_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MUSIC_PLAYER_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            // Retrieve the updated currentMusicIndex from MusicPlayerActivity
+            int updatedCurrentMusicIndex = data.getIntExtra("currentMusicIndex", 0);
+
+            // Use the updated currentMusicIndex as needed
+            // For example, you can update your UI or take any other actions based on the index.
+
+            // Note: You might want to update your UI based on the new index here.
+        }
     }
 }
 
