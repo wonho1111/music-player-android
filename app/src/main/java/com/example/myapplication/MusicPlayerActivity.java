@@ -5,13 +5,16 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MusicPlayerActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
-    private String musicTitle;
+    private String selectedMusicTitle;
+    private Music selectedMusic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,22 +35,31 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 if (mediaPlayer != null) {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
-                        btnPlayPause.setText("Play");
+                        //btnPlayPause.setText("Play");
                     } else {
                         mediaPlayer.start();
-                        btnPlayPause.setText("Pause");
+                        //btnPlayPause.setText("Pause");
                     }
                 }
             }
         });
 
-        // Retrieve data from the intent
+        // Retrieve the selected music title from the intent
         Intent intent = getIntent();
-        musicTitle = intent.getStringExtra("musicTitle");
-        // Add similar lines for album cover and singer information
+        selectedMusicTitle = intent.getStringExtra("selectedMusicTitle");
 
-        startMusicPlayback();
-        // Now, you can use the data in your UI or perform other actions
+        // Find the Music object based on the title
+        selectedMusic = findMusicByTitle(selectedMusicTitle);
+
+        if (selectedMusic != null) {
+            // Initialize UI elements and start music playback
+            initUI();
+            startMusicPlayback();
+        } else {
+            // Handle case where Music object is not found
+            // You may display an error message or take appropriate action
+            finish(); // Finish the activity
+        }
     }
 
     @Override
@@ -59,9 +71,29 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
     }
 
+    private Music findMusicByTitle(String title) {
+        for (Music music : MainActivity.musicList) {
+            if (music.getTitle().equals(title)) {
+                return music;
+            }
+        }
+        return null;
+    }
+
+    private void initUI() {
+        // Initialize UI elements here (e.g., set text for TextViews)
+        TextView titleTextView = findViewById(R.id.textTitle);
+        TextView singerTextView = findViewById(R.id.textSinger);
+
+        titleTextView.setText(selectedMusic.getTitle());
+        singerTextView.setText(selectedMusic.getSinger());
+    }
+
     private void startMusicPlayback() {
         // Initialize MediaPlayer and load the music file
-        mediaPlayer = MediaPlayer.create(this, R.raw.overdrive); // Replace with your music file
+        mediaPlayer = MediaPlayer.create(this, selectedMusic.getResourceId());
         mediaPlayer.start();
     }
+
+    // Rest of your code...
 }
